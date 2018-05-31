@@ -104,7 +104,7 @@ class LookupModule(LookupBase):
 
         return_fields = kwargs.pop('return_fields', None)
         filter_data = kwargs.pop('filter', {})
-        extattrs = normalize_extattrs(kwargs.pop('extattrs', {}))
+        normalize_extattrs(kwargs.pop('extattrs', {}))
         provider = kwargs.pop('provider', {})
         wapi = WapiLookup(provider)
         res = wapi.get_object(obj_type, filter_data, return_fields=return_fields)

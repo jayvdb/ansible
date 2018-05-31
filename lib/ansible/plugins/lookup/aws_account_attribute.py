@@ -59,12 +59,8 @@ try:
 except ImportError:
     raise AnsibleError("The lookup aws_account_attribute requires boto3 and botocore.")
 
-from ansible.plugins import AnsiblePlugin
 from ansible.plugins.lookup import LookupBase
-from ansible.module_utils.ec2 import boto3_conn, get_aws_connection_info
 from ansible.module_utils._text import to_native
-from ansible.module_utils.six import string_types
-import os
 
 
 def _boto3_conn(region, credentials):
@@ -72,11 +68,11 @@ def _boto3_conn(region, credentials):
 
     try:
         connection = boto3.session.Session(profile_name=boto_profile).client('ec2', region, **credentials)
-    except (botocore.exceptions.ProfileNotFound, botocore.exceptions.PartialCredentialsError) as e:
+    except (botocore.exceptions.ProfileNotFound, botocore.exceptions.PartialCredentialsError):
         if boto_profile:
             try:
                 connection = boto3.session.Session(profile_name=boto_profile).client('ec2', region)
-            except (botocore.exceptions.ProfileNotFound, botocore.exceptions.PartialCredentialsError) as e:
+            except (botocore.exceptions.ProfileNotFound, botocore.exceptions.PartialCredentialsError):
                 raise AnsibleError("Insufficient credentials found.")
         else:
             raise AnsibleError("Insufficient credentials found.")

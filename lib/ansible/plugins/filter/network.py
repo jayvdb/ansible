@@ -23,7 +23,6 @@ __metaclass__ = type
 import re
 import os
 import traceback
-import string
 
 from collections import Mapping
 from xml.etree.ElementTree import fromstring
